@@ -1,0 +1,66 @@
+"Start symbol" = <program>
+
+!-------Terminal--------
+id = [_] | {letter}{Alphanumeric}*
+digit = ('+' | '-')? {digit}+ ('.' {digit}+)? (('e' | ('+' | '-') {digit}+) '^' ('+' | '-') {digit}+ ('.' {digit}+)?)?  
+
+!--------Rules----------
+<program> ::= '****' <stat_list> '****'
+
+<stat_list> ::= <concept> | <concept> <stat_list>
+
+<concept> ::= <assign>
+            | <if_stat>
+            | <for_stat> 
+            | <while_stat> 
+            | <switch_stat>
+
+<assign> ::= <data> <id> '=' <expr> ';'
+
+<data> ::= int | float | double | string          
+<id> ::= id
+    
+<expr> ::= <expr> '+' <term> | <expr> '-' <term> | <term>
+        
+<term> ::= <term> '*' <f> | <term> '/' <f> | <term> '%' <f> | <term> '//' <f> | <f>
+        
+<f> ::= <f> '**' <exp> | <exp>
+     
+<exp> ::= '(' <expr> ')' | <id> | <digit>
+       
+<digit> ::= digit
+
+!----------if_statement--------
+<if_stat> ::= if '(' <cond_list> ')' ':' '***' <stat_list> '***' | if '(' <cond_list> ')' ':' '***' <stat_list> '***' else ':' '***' <stat_list> '***'
+
+<cond_list> ::= <cond> | <cond> <logical_op> <cond_list>
+
+<cond> ::= <expr> <op> <expr>
+
+<op> ::= '<' | '>' | '<=' | '>=' | '==' | '!='
+
+<logical_op> ::= 'and' | 'or' | 'not'
+
+!-----------for_statement--------
+<for_stat> ::= for '(' <assign> ';' <cond> ';' <for_step> ')' ':' '***' <stat_list> '***'
+
+<for_step> ::= <id> <step_op> <expr>
+
+<step_op> ::= '++' | '--'
+
+!----------while_statement-------
+<while_stat> ::= while '(' <cond> ')' ':' '***' <stat_list> '***'
+
+<do_while_stat> ::= do ':' '***' <stat_list> '***' while '(' <cond> ')' ';'
+
+!----------switch_statement-------
+<switch_stat> ::= switch '(' <expr> ')' ':' '***' <switch_case>+ 'default' ':' '***' <stat_list> '***'
+
+<switch_case> ::= case <expr> ':' '***' <stat_list> '***'
+
+
+
+
+
+ 
+
